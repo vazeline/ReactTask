@@ -20,8 +20,26 @@ class App extends Component {
       creationdate: PropTypes.string
     })).isRequired,
   } 
-
-
+  saveProduct(prod){
+    for(let i in this.state.products){
+        if(this.state.products[+i].id == prod.id)
+        {
+            this.state.products[i].name=prod.name;
+            this.state.products[i].description=prod.description;
+            this.state.products[i].price=prod.price;
+            
+            this.setState(this.state);
+            break;
+        }
+    }
+    
+  }
+  constructor(props){
+    super(props);
+    this.state = {
+      products: props.products
+    };
+  }
   render() {
     return (
       <div className="App">
@@ -31,9 +49,9 @@ class App extends Component {
         <div className="container">
         <BrowserRouter>
         <div>
-          <Route path="/" render={(rprops) => React.createElement(Products, {...rprops, ...this.props}) } />
+          <Route path="/" render={(rprops) => React.createElement(Products, {...rprops,...this.props, ...this.state}) } />
           <Route path="/view/:id" render={ (rprops) => React.createElement(ViewEditProduct, {isEdit:false, ...rprops, ...this.props}) } />
-          <Route path="/edit/:id" render={ (rprops) => React.createElement(ViewEditProduct, {isEdit:true, ...rprops, ...this.props})  } />
+          <Route path="/edit/:id" render={ (rprops) => React.createElement(ViewEditProduct, {isEdit:true, onSaveProduct:this.saveProduct.bind(this), ...rprops, ...this.props})  } />
           </div>
         </BrowserRouter>
 
