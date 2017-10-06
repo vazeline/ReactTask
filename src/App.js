@@ -4,6 +4,11 @@ import './App.css';
 import {Jumbotron} from 'react-bootstrap';
 import Products from './components/Products';
 import ViewEditProduct from './components/ViewEditProduct';
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from 'react-router-dom';
 
 class App extends Component {
   static propTypes = {
@@ -14,26 +19,8 @@ class App extends Component {
       description: PropTypes.string,
       creationdate: PropTypes.string
     })).isRequired,
-  }
-  constructor(props){
-    super(props);
-    this.state = {
-      viewProductOpened: false,
-      editProductOpened: false
-    };
-  }
-  getInitialState(){
-    return {
-      viewProductOpened: false,
-      editProductOpened: false
-    };
-  }
-  OnEdit(opened){
-    this.setState({editProductOpened: opened});
-  }
-  OnView(opened){
-    this.setState({viewProductOpened: opened});
-  }
+  } 
+
 
   render() {
     return (
@@ -42,15 +29,13 @@ class App extends Component {
           <h2 className="App-title">React JS Test Task</h2>
         </Jumbotron>
         <div className="container">
-
-        <Products products={this.props.products} 
-          onView={function(){this.OnView(true)}.bind(this)} 
-          onEdit={function(){this.OnEdit(true)}.bind(this)} />
-
-        <ViewEditProduct isEdit={false} visible={this.state.viewProductOpened} 
-          onHide={function(){this.OnView(false)}.bind(this)} />
-        <ViewEditProduct isEdit={true} visible={this.state.editProductOpened} 
-          onHide={function(){this.OnEdit(false)}.bind(this)} />
+        <BrowserRouter>
+        <div>
+          <Route path="/" render={(rprops) => React.createElement(Products, {...rprops, ...this.props}) } />
+          <Route path="/view/:id" render={ (rprops) => React.createElement(ViewEditProduct, {isEdit:false, ...rprops, ...this.props}) } />
+          <Route path="/edit/:id" render={ (rprops) => React.createElement(ViewEditProduct, {isEdit:true, ...rprops, ...this.props})  } />
+          </div>
+        </BrowserRouter>
 
         </div>
       </div>

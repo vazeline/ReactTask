@@ -15,22 +15,30 @@ function FieldGroup({ id, label, help, ...props }) {
 export default class ViewEditProduct extends Component{
     PropTypes = {
         isEdit: PropTypes.boolean,
-        visible: PropTypes.boolean,
-        onHide: PropTypes.func.isRequired,
-        //: PropTypes.
+    }
+    onHide(){
+        this.props.history.push('/');
     }
     handleChange(e) {
         //this.setState({ value: e.target.value });
       }
     render(){
-        if(!this.props.visible)
-            return null;
+        let id = this.props.match.params.id;
+        let product;
+        for(let i in this.props.products){
+            if(this.props.products[+i].id == id)
+            {
+                product = this.props.products[i];
+                break;
+            }
+        }
+        
         return (
             <div>
             <div className="backdrop">
             </div>
             <Modal.Dialog aria-labelledby="ModalHeader" style={{opacity:1}}>
-                <Modal.Header closeButton  onHide={this.props.onHide}>
+                <Modal.Header closeButton  onHide={()=>this.onHide()}>
                     <Modal.Title>{this.props.isEdit?"Edit product":"View product"}</Modal.Title>
                 </Modal.Header>
 
@@ -38,23 +46,23 @@ export default class ViewEditProduct extends Component{
                 {
                     this.props.isEdit? (
                         <div style={{'text-align':'left'}}>
-                        <FieldGroup id="name" type="text" label="Name" value={''} onChange={this.handleChange} placeholder="Enter name" />
-                        <FieldGroup id="price" type="text" label="Price" value={''} onChange={this.handleChange} placeholder="0.00 $" />
+                        <FieldGroup id="name" type="text" label="Name" value={product.name} onChange={this.handleChange} placeholder="Enter name" />
+                        <FieldGroup id="price" type="text" label="Price" value={product.price} onChange={this.handleChange} placeholder="0.00 $" />
                         <FormGroup controlId="description" >
                             <ControlLabel>Description</ControlLabel>
-                            <FormControl componentClass="textarea" value={''} onChange={this.handleChange}></FormControl>
+                            <FormControl componentClass="textarea" value={product.description} onChange={this.handleChange}></FormControl>
                         </FormGroup>
-                        <ControlLabel>Creation date {''}</ControlLabel>
+                        <ControlLabel>Creation date {product.creationdate}</ControlLabel>
                         </div>) :
                         (<div style={{'text-align':'left'}}>
                             <p>
-                            <ControlLabel>Name: {''}</ControlLabel>
+                            <ControlLabel>Name: {product.name}</ControlLabel>
                             </p><p>
-                            <ControlLabel>Price: {''}$</ControlLabel>
+                            <ControlLabel>Price: {product.price}$</ControlLabel>
                             </p><p>
-                            <ControlLabel>Description: {''}</ControlLabel>
+                            <ControlLabel>Description: {product.description}</ControlLabel>
                             </p><p>
-                            <ControlLabel>Creation date: {''}</ControlLabel>
+                            <ControlLabel>Creation date: {product.creationdate}</ControlLabel>
                             </p>
                         </div>)
                 }
@@ -62,7 +70,7 @@ export default class ViewEditProduct extends Component{
                 {
                     this.props.isEdit ?
                     (<Modal.Footer>
-                        <Button onClick={this.props.onHide} >Close</Button>
+                        <Button onClick={()=>this.onHide()} >Close</Button>
                         <Button bsStyle="primary">Save changes</Button>
                     </Modal.Footer>):''
                 }

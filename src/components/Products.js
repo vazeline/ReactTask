@@ -4,8 +4,7 @@ import {PanelGroup,Panel} from 'react-bootstrap';
 
 export default class Products extends Component{
     render(){
-        const prods = this.props.products
-        const prodComponents = prods.map((prod, index)=>
+        const prodComponents = this.props.products.map((prod, index)=>
             <Panel className="col-md-3 col-sm-6 mypanel">
             <Product 
                 index={index} 
@@ -14,8 +13,8 @@ export default class Products extends Component{
                 key={prod.id}
                 description={prod.description}
                 creationdate={prod.creationdate}
-                onView={this.props.onView}
-                onEdit={this.props.onEdit}
+                onView={()=> { this.props.history.push("/view/"+prod.id);} }
+                onEdit={() => { this.props.history.push('/edit/'+prod.id); }}
                 />
             </Panel> 
         );

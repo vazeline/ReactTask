@@ -27,6 +27,13 @@ var PRODUCTS = [
       description:"Step on the deck and go with Razor Hovertrax 2.0, the world's smartest self-balancing electric scooter.",
       creationdate:"07/27/2017"
     },
+    {
+      name: "Melissa & Doug Deluxe Wooden ABC/123 Blocks Set With Storage Pouch (50 pcs; colors may vary)",
+      price:12.99,
+      id:4,
+      description:"These classic building blocks provide endless hours of building, balancing, counting, comparing, and all kinds of hands-on early learning!",
+      creationdate:"10/06/2017"
+    }
   ];
   var nextId = 4;
 
