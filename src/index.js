@@ -33,9 +33,22 @@ var PRODUCTS = [
       id:4,
       description:"These classic building blocks provide endless hours of building, balancing, counting, comparing, and all kinds of hands-on early learning!",
       creationdate:"10/06/2017"
+    },
+    {
+      name: "Imaginarium 300-Piece Timber Log Set",
+      price:29.99,
+      id:5,
+      description:"Travel back through time and use your imagination to build your own frontier town including homesteads and a city - center with the exclusive Toys \"R\" Us, Wooden Timber Log Set!",
+      creationdate:"10/09/2017"
+    },
+    {
+      name: "Lincoln Logs Grand Pine Lodge",
+      price:34.99,
+      id:6,
+      description:"K'NEX Lincoln Logs Have been a classic since 1913. The Grand Pine Lodge is a 103 piece set and will provide little builders with hours of fun!",
+      creationdate:"10/09/2017"
     }
   ];
-  var nextId = 4;
 
 ReactDOM.render(<App products={PRODUCTS}/>, document.getElementById('root'));
 registerServiceWorker();

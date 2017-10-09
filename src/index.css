@@ -31,3 +31,6 @@ body {
   padding:0px !important;
   margin-top:0px !important;
 }
+.action-button{
+  margin:0 5px 0 5px; 
+}

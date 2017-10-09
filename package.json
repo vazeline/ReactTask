@@ -4,8 +4,11 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "moment": "^2.18.1",
+    "moment-range": "^3.0.3",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.3",
+    "react-datepicker": "^0.55.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

@@ -1,90 +1,107 @@
-import React,{Component} from 'react';
-import {Modal, Button, FormControl, FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap';
-import {PropTypes} from 'prop-types';
+import React, { Component } from 'react';
+import { Modal, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { PropTypes } from 'prop-types';
+import moment from 'moment';
+//import { extendMoment } from 'moment-range';
+import DatePicker from 'react-datepicker';
+//extendMoment(moment);
 
 function FieldGroup({ id, label, help, ...props }) {
     return (
-      <FormGroup controlId={id}>
-        <ControlLabel>{label}</ControlLabel>
-        <FormControl {...props} />
-        {help && <HelpBlock>{help}</HelpBlock>}
-      </FormGroup>
+        <FormGroup controlId={id}>
+            <ControlLabel>{label}</ControlLabel>
+            <FormControl {...props} />
+            {help && <HelpBlock>{help}</HelpBlock>}
+        </FormGroup>
     );
-  }
+}
 
-export default class ViewEditProduct extends Component{
+export default class ViewEditProduct extends Component {
     PropTypes = {
         isEdit: PropTypes.boolean,
+        isAdd: PropTypes.boolean,
         onSaveProduct: PropTypes.func
     }
-    onHide(){
+    onHide() {
         this.props.history.push('/');
     }
-    onSave(){
+    onSave() {
         this.props.onSaveProduct(this.state);
         this.onHide();
     }
-    constructor(props){
+    constructor(props) {
         super(props);
-        let id = props.match.params.id;
-        let product;
-        for(let i in props.products){
-            if(props.products[+i].id == id)
-            {
-                product = props.products[i];
-                this.state = {...product};
-                break;
+        if (props.isAdd) {
+            let product = {
+                id: props.products.length==0 ? 0 : props.products[props.products.length-1].id + 1,
+                name:'',
+                description:'',
+                price:0,
+                creationdate:moment(new Date())
+            }
+            this.state = { ...product };
+        }
+        else{
+            for (let i in props.products) {
+                if (props.products[+i].id == props.match.params.id) {
+                    let product = props.products[i];
+                    this.state = { ...product };
+                    break;
+                }
             }
         }
     }
-    handleNameChange(e) { this.setState({name:e.target.value}); }
-    handlePriceChange(e) { this.setState({price:e.target.value}); }
-    handleDescriptionChange(e) { this.setState({description:e.target.value}); }
-    render(){
+
+    handleNameChange(e) { this.setState({ name: e.target.value }); }
+    handlePriceChange(e) { this.setState({ price: e.target.value }); }
+    handleDescriptionChange(e) { this.setState({ description: e.target.value }); }
+    handleDateChange(e) { this.setState({ creationdate: e.format("MM/DD/YYYY") }); }
+
+    render() {
         return (
             <div>
-            <div className="backdrop">
+                <div className="backdrop">
+                </div>
+                <Modal.Dialog aria-labelledby="ModalHeader" style={{ opacity: 1 }}>
+                    <Modal.Header closeButton onHide={() => this.onHide()}>
+                        <Modal.Title>{this.props.isEdit ? "Edit product" : "View product"}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {
+                            this.props.isEdit || this.props.isAdd ? (
+                                <div style={{ textAlign: 'left' }}>
+                                    <FieldGroup id="name" type="text" label="Name" value={this.state.name} onChange={this.handleNameChange.bind(this)} placeholder="Enter name" />
+                                    <FieldGroup id="price" type="text" label="Price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} placeholder="0.00 $" />
+                                    <FormGroup controlId="description">
+                                        <ControlLabel>Description</ControlLabel>
+                                        <FormControl componentClass="textarea" value={this.state.description} onChange={this.handleDescriptionChange.bind(this)}></FormControl>
+                                    </FormGroup>
+                                    <ControlLabel>Creation date</ControlLabel>
+                                    <DatePicker selected={moment(this.state.creationdate)} onChange={this.handleDateChange.bind(this)}/> 
+                                </div>) :
+                                (<div style={{ textAlign: 'left' }}>
+                                    <p>
+                                        <ControlLabel>Name: {this.state.name}</ControlLabel>
+                                    </p><p>
+                                        <ControlLabel>Price: {this.state.price}$</ControlLabel>
+                                    </p><p>
+                                        <ControlLabel>Description: {this.state.description}</ControlLabel>
+                                    </p><p>
+                                        <ControlLabel>Creation date: {this.state.creationdate}</ControlLabel>
+                                    </p>
+                                </div>)
+                        }
+                    </Modal.Body>
+                    {
+                        this.props.isEdit || this.props.isAdd ?
+                            (<Modal.Footer>
+                                <Button onClick={() => this.onHide()} >Close</Button>
+                                <Button bsStyle="primary" onClick={() => this.onSave()}>Save changes</Button>
+                            </Modal.Footer>) : ''
+                    }
+                </Modal.Dialog>
             </div>
-            <Modal.Dialog aria-labelledby="ModalHeader" style={{opacity:1}}>
-                <Modal.Header closeButton  onHide={()=>this.onHide()}>
-                    <Modal.Title>{this.props.isEdit?"Edit product":"View product"}</Modal.Title>
-                </Modal.Header>
 
-                <Modal.Body>
-                {
-                    this.props.isEdit? (
-                        <div style={{'text-align':'left'}}>
-                        <FieldGroup id="name" type="text" label="Name" value={this.state.name} onChange={this.handleNameChange.bind(this)} placeholder="Enter name" />
-                        <FieldGroup id="price" type="text" label="Price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} placeholder="0.00 $" />
-                        <FormGroup controlId="description">
-                            <ControlLabel>Description</ControlLabel>
-                            <FormControl componentClass="textarea" value={this.state.description} onChange={this.handleDescriptionChange.bind(this)}></FormControl>
-                        </FormGroup>
-                        <ControlLabel>Creation date {this.state.creationdate}</ControlLabel>
-                        </div>) :
-                        (<div style={{'text-align':'left'}}>
-                            <p>
-                            <ControlLabel>Name: {this.state.name}</ControlLabel>
-                            </p><p>
-                            <ControlLabel>Price: {this.state.price}$</ControlLabel>
-                            </p><p>
-                            <ControlLabel>Description: {this.state.description}</ControlLabel>
-                            </p><p>
-                            <ControlLabel>Creation date: {this.state.creationdate}</ControlLabel>
-                            </p>
-                        </div>)
-                }
-                </Modal.Body>
-                {
-                    this.props.isEdit ?
-                    (<Modal.Footer>
-                        <Button onClick={()=>this.onHide()} >Close</Button>
-                        <Button bsStyle="primary" onClick={()=>this.onSave()}>Save changes</Button>
-                    </Modal.Footer>):''
-                }
-            </Modal.Dialog>
-            </div>
-            
         );
     }
 }
