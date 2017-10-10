@@ -5,6 +5,7 @@ import moment from 'moment';
 //import { extendMoment } from 'moment-range';
 import DatePicker from 'react-datepicker';
 //extendMoment(moment);
+import 'react-datepicker/dist/react-datepicker.css';
 
 function FieldGroup({ id, label, help, ...props }) {
     return (
