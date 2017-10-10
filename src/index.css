@@ -34,3 +34,16 @@ body {
 .action-button{
   margin:0 5px 0 5px; 
 }
+.buttons-container{
+  bottom: 0px; 
+  left: 0; 
+  right: 0;
+  position: absolute;
+  margin: 0 auto 10px auto;
+}
+.tal{
+  text-align: left
+}
+.buttons-wrapper{
+  height: 150px;
+}

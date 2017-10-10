@@ -70,7 +70,7 @@ export default class ViewEditProduct extends Component {
                     <Modal.Body>
                         {
                             this.props.isEdit || this.props.isAdd ? (
-                                <div style={{ textAlign: 'left' }}>
+                                <div className="tal">
                                     <FieldGroup id="name" type="text" label="Name" value={this.state.name} onChange={this.handleNameChange.bind(this)} placeholder="Enter name" />
                                     <FieldGroup id="price" type="text" label="Price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} placeholder="0.00 $" />
                                     <FormGroup controlId="description">
@@ -80,7 +80,7 @@ export default class ViewEditProduct extends Component {
                                     <ControlLabel>Creation date</ControlLabel>
                                     <DatePicker selected={moment(this.state.creationdate)} onChange={this.handleDateChange.bind(this)}/> 
                                 </div>) :
-                                (<div style={{ textAlign: 'left' }}>
+                                (<div className="tal">
                                     <p>
                                         <ControlLabel>Name: {this.state.name}</ControlLabel>
                                     </p><p>

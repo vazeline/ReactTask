@@ -8,10 +8,10 @@ export default class Product extends Component {
     render() {
         return (
             <Panel className="col-md-3 col-sm-6 mypanel">
-                <div style={{ height: '150px' }}>
+                <div className="buttons-wrapper">
                     <span>{this.props.name}</span>
                     <div><h2><Label bsStyle="info">{this.props.price}$</Label></h2></div>
-                    <p style={{ bottom: '0px', left: '0', right: '0', position: 'absolute', margin: '0 auto 10px auto' }}>
+                    <p className="buttons-container">
                         <Button onClick={this.props.onView} className="action-button">View</Button>
                         <Button onClick={this.props.onEdit} className="action-button">Edit</Button>
                         <Button onClick={this.props.onDelete} className="action-button" bsStyle="danger">Delete</Button>
