@@ -6,6 +6,7 @@ import Products from './components/Products';
 import EditProduct from './components/EditProduct';
 import ViewProduct from './components/ViewProduct';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Helpers from './Helpers';
 
 class App extends Component {
   static propTypes = {
@@ -19,9 +20,8 @@ class App extends Component {
   }
 
   saveProduct(prod) {
-    if (prod.id === this.state.nextId) {
+    if (prod.id === new Helpers().getNextId(this.state.products)) {
       this.state.products.push(prod);
-      this.state.nextId = prod.id + 1;
       this.setState(this.state);
     }
     else
@@ -42,22 +42,16 @@ class App extends Component {
   DeleteProduct(id) {
     for (let i = 0; i < this.state.products.length; i++) {
       if (this.state.products[i].id === +id) {
-        if (+id === this.state.nextId - 1)
-          this.state.nextId -= 1;
         this.state.products.splice(+i, 1);
-        if (this.state.products.length === 0)
-          this.state.nextId = 0;
         this.setState(this.state);
         break;
       }
     }
   }
+
   constructor(props) {
     super(props);
-    this.state = {
-      products: props.products,
-      nextId: props.products[props.products.length - 1].id + 1
-    };
+    this.state = { products: props.products };
   }
 
   render() {

@@ -24,10 +24,7 @@ export default class Product extends Component {
 
 Product.propTypes = {
     name: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
-    creationdate: PropTypes.string.isRequired,
     onView: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired

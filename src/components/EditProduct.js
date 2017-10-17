@@ -3,6 +3,7 @@ import { Modal, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from '
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
+import Helpers from '../Helpers';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function FieldGroup({ id, label, help, ...props }) {
@@ -26,8 +27,12 @@ export default class EditProduct extends Component {
     }
 
     onSave() {
-        if(this.state.creationdate instanceof moment)
-            this.state.creationdate = this.state.creationdate.format("MM/DD/YYYY"); 
+        if (this.state.creationdate instanceof moment)
+            this.state.creationdate = this.state.creationdate.format("MM/DD/YYYY");
+        if (typeof this.state.price === 'string') {
+            let parsed = parseFloat(this.state.price);
+            this.state.price = isNaN(parsed) ? '' : parsed;
+        }
         this.props.onSaveProduct(this.state);
         this.onHide();
     }
@@ -36,7 +41,7 @@ export default class EditProduct extends Component {
         super(props);
         if (props.isAdd) {
             let product = {
-                id: props.products.length === 0 ? 0 : props.products[props.products.length - 1].id + 1,
+                id: new Helpers().getNextId(props.products),
                 name: '',
                 description: '',
                 price: 0,
@@ -57,7 +62,12 @@ export default class EditProduct extends Component {
 
     handleNameChange(e) { this.setState({ name: e.target.value }); }
 
-    handlePriceChange(e) { this.setState({ price: e.target.value }); }
+    handlePriceChange(e) {
+        let val = e.target.value.trim().replace(',','.');
+        if(!/^\d*(\.\d*)?$/.test(val))
+            return;
+        this.setState({ price: val }); 
+    }
 
     handleDescriptionChange(e) { this.setState({ description: e.target.value }); }
 
