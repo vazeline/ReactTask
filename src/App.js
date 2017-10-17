@@ -68,10 +68,10 @@ class App extends Component {
         <div className="container">
           <BrowserRouter>
             <div>
-              <Route path="/" render={(rprops) => React.createElement(Products, { ...rprops, ...this.props, ...this.state, onDelete: this.DeleteProduct.bind(this) })} />
-              <Route path="/view/:id" render={(rprops) => React.createElement(ViewEditProduct, { isEdit: false, ...rprops, ...this.props })} />
-              <Route path="/edit/:id" render={(rprops) => React.createElement(ViewEditProduct, { isEdit: true, onSaveProduct: this.saveProduct.bind(this), ...rprops, ...this.props })} />
-              <Route path="/add" render={(rprops) => React.createElement(ViewEditProduct, { isAdd: true, onSaveProduct: this.saveProduct.bind(this), ...rprops, ...this.props })} />
+              <Route path="/" render={(rprops) => <Products history={rprops.history} products={this.props.products} onDelete={this.DeleteProduct.bind(this)} />} />
+              <Route path="/view/:id" render={(rprops) => <ViewEditProduct isEdit={false} match={rprops.match} history={rprops.history} products={this.props.products} />} />
+              <Route path="/edit/:id" render={(rprops) => <ViewEditProduct isEdit={true} match={rprops.match} history={rprops.history} products={this.props.products} onSaveProduct={this.saveProduct.bind(this)} />} />
+              <Route path="/add" render={(rprops) => <ViewEditProduct isAdd={true} onSaveProduct={this.saveProduct.bind(this)} match={rprops.match} history={rprops.history} products={this.props.products} />} />
             </div>
           </BrowserRouter>
         </div>
