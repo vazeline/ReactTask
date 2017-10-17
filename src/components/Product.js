@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Label, Button } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {Panel} from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
 export default class Product extends Component {
+
     render() {
         return (
             <Panel className="col-md-3 col-sm-6 mypanel">

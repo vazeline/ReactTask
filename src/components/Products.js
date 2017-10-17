@@ -1,9 +1,10 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Product from './Product';
-import {PanelGroup, Button} from 'react-bootstrap';
+import { PanelGroup, Button } from 'react-bootstrap';
 
-export default class Products extends Component{
-    render(){
+export default class Products extends Component {
+
+    render() {
         const prodComponents = this.props.products.map((prod, index) =>
             <Product
                 index={index}
@@ -16,9 +17,9 @@ export default class Products extends Component{
                 onEdit={() => { this.props.history.push('/edit/' + prod.id); }}
                 onDelete={() => { this.props.onDelete(prod.id); }}
             />);
-        return (<PanelGroup> 
-            <p><Button onClick={()=>{this.props.history.push('/add');}} bsStyle="success">Add Product</Button></p>
-            {prodComponents} 
-            </PanelGroup>);
+        return (<PanelGroup>
+            <p><Button bsStyle="success" onClick={() => { this.props.history.push('/add'); }}>Add Product</Button></p>
+            {prodComponents}
+        </PanelGroup>);
     }
 }

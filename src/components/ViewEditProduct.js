@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
 import moment from 'moment';
-//import { extendMoment } from 'moment-range';
 import DatePicker from 'react-datepicker';
-//extendMoment(moment);
 import 'react-datepicker/dist/react-datepicker.css';
 
 function FieldGroup({ id, label, help, ...props }) {
@@ -23,28 +21,33 @@ export default class ViewEditProduct extends Component {
         isAdd: PropTypes.boolean,
         onSaveProduct: PropTypes.func
     }
+
     onHide() {
         this.props.history.push('/');
     }
+
     onSave() {
+        if(this.state.creationdate instanceof moment)
+            this.state.creationdate = this.state.creationdate.format("MM/DD/YYYY"); 
         this.props.onSaveProduct(this.state);
         this.onHide();
     }
+
     constructor(props) {
         super(props);
         if (props.isAdd) {
             let product = {
-                id: props.products.length==0 ? 0 : props.products[props.products.length-1].id + 1,
-                name:'',
-                description:'',
-                price:0,
-                creationdate:moment(new Date())
+                id: props.products.length === 0 ? 0 : props.products[props.products.length - 1].id + 1,
+                name: '',
+                description: '',
+                price: 0,
+                creationdate: moment(new Date())
             }
             this.state = { ...product };
         }
-        else{
+        else {
             for (let i in props.products) {
-                if (props.products[+i].id == props.match.params.id) {
+                if (props.products[+i].id === +props.match.params.id) {
                     let product = props.products[i];
                     this.state = { ...product };
                     break;
@@ -54,8 +57,11 @@ export default class ViewEditProduct extends Component {
     }
 
     handleNameChange(e) { this.setState({ name: e.target.value }); }
+
     handlePriceChange(e) { this.setState({ price: e.target.value }); }
+
     handleDescriptionChange(e) { this.setState({ description: e.target.value }); }
+
     handleDateChange(e) { this.setState({ creationdate: e.format("MM/DD/YYYY") }); }
 
     render() {
@@ -65,7 +71,7 @@ export default class ViewEditProduct extends Component {
                 </div>
                 <Modal.Dialog aria-labelledby="ModalHeader" style={{ opacity: 1 }}>
                     <Modal.Header closeButton onHide={() => this.onHide()}>
-                        <Modal.Title>{this.props.isEdit ? "Edit product" : "View product"}</Modal.Title>
+                        <Modal.Title>{this.props.isEdit ? "Edit product" : (this.props.isAdd? "Add product" : "View product")}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {
@@ -78,7 +84,7 @@ export default class ViewEditProduct extends Component {
                                         <FormControl componentClass="textarea" value={this.state.description} onChange={this.handleDescriptionChange.bind(this)}></FormControl>
                                     </FormGroup>
                                     <ControlLabel>Creation date</ControlLabel>
-                                    <DatePicker selected={moment(this.state.creationdate)} onChange={this.handleDateChange.bind(this)}/> 
+                                    <DatePicker selected={moment(this.state.creationdate)} onChange={this.handleDateChange.bind(this)} />
                                 </div>) :
                                 (<div className="tal">
                                     <p>
@@ -96,13 +102,12 @@ export default class ViewEditProduct extends Component {
                     {
                         this.props.isEdit || this.props.isAdd ?
                             (<Modal.Footer>
-                                <Button onClick={() => this.onHide()} >Close</Button>
+                                <Button onClick={() => this.onHide()}>Close</Button>
                                 <Button bsStyle="primary" onClick={() => this.onSave()}>Save changes</Button>
                             </Modal.Footer>) : ''
                     }
                 </Modal.Dialog>
             </div>
-
         );
     }
 }
