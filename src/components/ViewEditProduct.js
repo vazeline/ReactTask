@@ -46,8 +46,8 @@ export default class ViewEditProduct extends Component {
             this.state = { ...product };
         }
         else {
-            for (let i in props.products) {
-                if (props.products[+i].id === +props.match.params.id) {
+            for (let i = 0; i < props.products.length; i++) {
+                if (props.products[i].id === +props.match.params.id) {
                     let product = props.products[i];
                     this.state = { ...product };
                     break;

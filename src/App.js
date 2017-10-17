@@ -24,8 +24,8 @@ class App extends Component {
       this.setState(this.state);
     }
     else
-      for (let i in this.state.products) {
-        let p = this.state.products[+i];
+      for (let i = 0; i < this.state.products.length; i++) {
+        let p = this.state.products[i];
         if (p.id === +prod.id) {
           p.name = prod.name;
           p.description = prod.description;
@@ -39,8 +39,8 @@ class App extends Component {
   }
 
   DeleteProduct(id) {
-    for (let i in this.state.products) {
-      if (this.state.products[+i].id === +id) {
+    for (let i = 0; i < this.state.products.length; i++) {
+      if (this.state.products[i].id === +id) {
         if (+id === this.state.nextId - 1)
           this.state.nextId -= 1;
         this.state.products.splice(+i, 1);

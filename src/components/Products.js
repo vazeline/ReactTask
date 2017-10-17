@@ -7,12 +7,9 @@ export default class Products extends Component {
     render() {
         const prodComponents = this.props.products.map((prod, index) =>
             <Product
-                index={index}
                 name={prod.name}
                 price={prod.price}
                 key={prod.id}
-                description={prod.description}
-                creationdate={prod.creationdate}
                 onView={() => { this.props.history.push("/view/" + prod.id); }}
                 onEdit={() => { this.props.history.push('/edit/' + prod.id); }}
                 onDelete={() => { this.props.onDelete(prod.id); }}
