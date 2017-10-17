@@ -3,7 +3,8 @@ import { PropTypes } from 'prop-types';
 import './App.css';
 import { Jumbotron } from 'react-bootstrap';
 import Products from './components/Products';
-import ViewEditProduct from './components/ViewEditProduct';
+import EditProduct from './components/EditProduct';
+import ViewProduct from './components/ViewProduct';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -69,9 +70,9 @@ class App extends Component {
           <BrowserRouter>
             <div>
               <Route path="/" render={(rprops) => <Products history={rprops.history} products={this.props.products} onDelete={this.DeleteProduct.bind(this)} />} />
-              <Route path="/view/:id" render={(rprops) => <ViewEditProduct isEdit={false} match={rprops.match} history={rprops.history} products={this.props.products} />} />
-              <Route path="/edit/:id" render={(rprops) => <ViewEditProduct isEdit={true} match={rprops.match} history={rprops.history} products={this.props.products} onSaveProduct={this.saveProduct.bind(this)} />} />
-              <Route path="/add" render={(rprops) => <ViewEditProduct isAdd={true} onSaveProduct={this.saveProduct.bind(this)} match={rprops.match} history={rprops.history} products={this.props.products} />} />
+              <Route path="/view/:id" render={(rprops) => <ViewProduct match={rprops.match} history={rprops.history} products={this.props.products} />} />
+              <Route path="/edit/:id" render={(rprops) => <EditProduct match={rprops.match} history={rprops.history} products={this.props.products} onSaveProduct={this.saveProduct.bind(this)} />} />
+              <Route path="/add" render={(rprops) => <EditProduct isAdd={true} onSaveProduct={this.saveProduct.bind(this)} match={rprops.match} history={rprops.history} products={this.props.products} />} />
             </div>
           </BrowserRouter>
         </div>
