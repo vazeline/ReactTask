@@ -6,7 +6,11 @@ import Products from './components/Products';
 import EditProduct from './components/EditProduct';
 import ViewProduct from './components/ViewProduct';
 import { BrowserRouter, Route } from 'react-router-dom';
+import * as ActionCreators from './redux/Actions';
 import Helpers from './Helpers';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 
 class App extends Component {
   static propTypes = {
@@ -55,6 +59,12 @@ class App extends Component {
   }
 
   render() {
+    const { dispatch, products, selectedPlayerIndex } = this.props;
+    const addProduct = bindActionCreators(ActionCreators.addProduct, dispatch);
+    const removeProduct = bindActionCreators(ActionCreators.removeProduct, dispatch);
+    const editProduct = bindActionCreators(ActionCreators.editProduct, dispatch);
+    const selectProduct = bindActionCreators(ActionCreators.selectProduct, dispatch);
+
     return (
       <div className="App">
         <Jumbotron >
@@ -63,10 +73,10 @@ class App extends Component {
         <div className="container">
           <BrowserRouter>
             <div>
-              <Route path="/" render={(rprops) => <Products history={rprops.history} products={this.props.products} onDelete={this.DeleteProduct.bind(this)} />} />
-              <Route path="/view/:id" render={(rprops) => <ViewProduct match={rprops.match} history={rprops.history} products={this.props.products} />} />
-              <Route path="/edit/:id" render={(rprops) => <EditProduct match={rprops.match} history={rprops.history} products={this.props.products} onSaveProduct={this.saveProduct.bind(this)} />} />
-              <Route path="/add" render={(rprops) => <EditProduct isAdd={true} onSaveProduct={this.saveProduct.bind(this)} match={rprops.match} history={rprops.history} products={this.props.products} />} />
+              <Route path="/" render={(rprops) => <Products history={rprops.history} products={products} onDelete={removeProduct} />} />
+              <Route path="/view/:id" render={(rprops) => <ViewProduct match={rprops.match} history={rprops.history} products={products} />} />
+              <Route path="/edit/:id" render={(rprops) => <EditProduct match={rprops.match} history={rprops.history} products={products} onSaveProduct={editProduct} />} />
+              <Route path="/add" render={(rprops) => <EditProduct isAdd={true} onSaveProduct={addProduct} match={rprops.match} history={rprops.history} products={products} />} />
             </div>
           </BrowserRouter>
         </div>
@@ -74,5 +84,11 @@ class App extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  {
+    products: state.products//,
+    //selectedPlayerIndex: state.selectedPlayerIndex
+  }
+};
 
-export default App;
+export default connect(mapStateToProps)(App);
